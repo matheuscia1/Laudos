@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel do Hospital</title>
+    <link rel="stylesheet" href="estilos.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="logo-sidebar">
+            <i class="fas fa-hospital"></i>
+            <span>Hospital Integrado</span>
+        </div>
+        <button class="toggle-btn" id="toggle-sidebar">
+            <i class="fas fa-chevron-left"></i>
+        </button>
+    </div>
+
+    <nav class="sidebar-menu">
+        <ul>
+            <li class="active" data-page="painel">
+                <a href="#painel"><i class="fas fa-home"></i> <span>Painel</span></a>
+            </li>
+
+            <li class="has-submenu">
+                <a href="#" class="submenu-toggle">
+                    <i class="fas fa-clipboard-list"></i>
+                    <span>Requisições</span>
+                    <i class="fas fa-chevron-down submenu-icon"></i>
+                </a>
+                <ul class="submenu">
+                    <li data-page="solicitar-exame"><a href="#solicitar-exame">Solicitar Exame</a></li>
+                    <li data-page="pendentes"><a href="#pendentes">Requisições por setor</a></li>
+                    <li><a href="#minhas-requisicoes">Minhas requisições</a></li>
+                    <li><a href="#exames-realizar">Exames a realizar</a></li>
+                     </ul>
+                    </li>
+
+             
+
+    <!-- SUBMENU - LAUDOS -->                
+    <li class="has-submenu">
+    <a href="#" class="submenu-toggle">
+        <i class="fas fa-file-medical"></i>
+        <span>Laudos</span>
+        <i class="fas fa-chevron-down submenu-icon"></i>
+    </a>
+    <ul class="submenu">
+        <li><a href="#visualizar-laudos">Visualizar laudos</a></li>
+        <li><a href="#meus-laudos">Meus laudos</a></li>
+    </ul>
+</li>
+
+
+
+
+
+            <li data-page="estatisticas"><a href="#estatisticas"><i class="fas fa-chart-bar"></i> <span>Estatísticas</span></a></li>
+            <li data-page="configuracoes"><a href="#configuracoes"><i class="fas fa-cog"></i> <span>Configurações</span></a></li>
+            <li data-page="sair"><a href="#sair"><i class="fas fa-sign-out-alt"></i> <span>Sair</span></a></li>
+        </ul>
+    </nav>
+</aside>
+
+<div class="overlay" id="overlay"></div>
+
+<!-- CONTEÚDO -->
+<div class="main-content" id="main-content">
+<header class="header">
+    <button class="mobile-menu-btn" id="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+    </button>
+    <h1 id="page-title">Painel</h1>
+    <div class="user-info">
+        <span>Dr. Matheus</span>
+        <i class="fas fa-user-md"></i>
+    </div>
+</header>
+
+<main class="main-container">
+
+<section id="painel" class="page active">
+    <div class="empty-state">
+        <h2>Bem-vindo ao sistema</h2>
+    </div>
+</section>
+
+<section id="solicitar-exame" class="page">
+    <div class="setor-header">
+        <h3 id="setor-nome-solicitar">Setor: Azul</h3>
+        <button id="alterar-setor-solicitar" class="btn-small">Alterar Setor</button>
+    </div>
+
+    <div class="form-wrapper">
+        <form id="form-solicitacao">
+            <input type="hidden" id="setor-selecionado-solicitar" value="Azul">
+
+            <label>Paciente</label>
+            <input id="paciente" required>
+
+            <label>Tipo</label>
+            <select id="tipo-exame" required>
+                <option value="">Selecione</option>
+                <option value="Ultrassonografia">Ultrassonografia</option>
+                <option value="TC">Tomografia Computadorizada</option>
+            </select>
+
+            <div id="subtipo-container" style="display:none;">
+    <label>Subtipo do exame</label>
+    <select id="subtipo-exame">
+        <option value="">Selecione</option>
+    </select>
+</div>
+
+<label class="toggle">
+    <input type="checkbox" id="urgente-toggle">
+    <span class="slider"></span>
+    <span class="toggle-label">Urgente</span>
+</label>
+
+
+
+<div id="contraste-container" style="display:none;">
+    <label class="toggle">
+        <input type="checkbox" id="contraste-toggle">
+        <span class="slider"></span>
+        <span class="toggle-label">Tomografia com contraste</span>
+    </label>
+</div>
+
+<div id="funcao-renal-container" style="display:none;">
+    <label>Função renal</label>
+    <input type="text" id="ureia" placeholder="Ureia">
+    <input type="text" id="creatinina" placeholder="Creatinina">
+</div>
+
+
+
+            <label>Indicação</label>
+            <textarea id="descricao" required></textarea>
+
+            <button type="submit">Solicitar</button>
+        </form>
+    </div>
+</section>
+
+<section id="pendentes" class="page">
+    <div class="setor-header">
+        <h3 id="setor-nome-pendentes">Setor: Azul</h3>
+        <button id="alterar-setor-pendentes" class="btn-small">Alterar Setor</button>
+    </div>
+
+    <div class="lista-wrapper">
+        <div id="requisicoes-container"></div>
+    </div>
+</section>
+
+
+<section id="minhas-requisicoes" class="page">
+        <div id="minhas-requisicoes-container"></div>
+</section>
+
+
+
+<section id="exames-realizar" class="page">
+    <div id="exames-realizar-container"></div>
+</section>
+
+
+
+
+<section id="realizar-exame-section" class="page" style="display:none;">
+    <div class="form-container">
+        <form id="form-laudo">
+            <input type="hidden" id="requisicao-id">
+            <label>Laudo (PDF)</label>
+            <input type="file" id="laudo-arquivo" accept=".pdf" required>
+            <label>Comentários</label>
+            <textarea id="comentarios"></textarea>
+            <button type="submit">Enviar</button>
+            <button type="button" id="cancelar-laudo" class="btn-cancel">Cancelar</button>
+        </form>
+    </div>
+</section>
+
+<section id="estatisticas" class="page"><div class="empty-state">Em desenvolvimento</div></section>
+<section id="configuracoes" class="page"><div class="empty-state">Em desenvolvimento</div></section>
+<section id="sair" class="page"><div class="empty-state">Saindo...</div></section>
+
+
+
+<!-- Campo de busca + Filtros -->
+
+
+<div id="laudos-filtros-wrapper" style="display: none;">
+
+    <div class="laudos-filtros">
+    <input
+        type="text"
+        id="filtro-paciente"
+        placeholder="Paciente"
+    />
+
+    <input
+        type="text"
+        id="filtro-tipo"
+        placeholder="Tipo de exame"
+    />
+
+    <select id="filtro-setor">
+        <option value="">Todos os setores</option>
+        <option value="Azul">Azul</option>
+        <option value="Vermelho">Vermelho</option>
+        <option value="Verde">Verde</option>
+    </select>
+
+    <input
+        type="date"
+        id="filtro-data"
+    />
+
+    <button id="limpar-filtros">
+        Limpar
+    </button>
+    </div>
+
+    <!-- CONTADOR DE RESULTADOS DA BUSCA-->
+    <div id="contador-laudos" class="contador-laudos"></div>
+
+
+</div>
+
+
+
+
+
+
+<!-- Página: Visualizar laudos -->
+
+<section id="visualizar-laudos" class="page">
+        <div id="laudos-container"></div>
+</section>
+
+
+<!-- Página: Meus laudos -->
+
+<section id="meus-laudos" class="page">
+       <div id="meus-laudos-container"></div>
+</section>
+
+
+
+</main>
+</div>
+
+
+
+
+
+
+
+
+<!-- MODAL GLOBAL DE SETOR -->
+<div id="setor-modal-overlay" class="modal-overlay"></div>
+
+<div id="setor-selector-panel" class="setor-selector-panel" style="display:none;">
+    <div class="panel-header">
+        <h3>Selecionar Setor</h3>
+        <button id="fechar-setor-panel" class="btn-close">×</button>
+    </div>
+<div class="setor-groups">
+
+    <div class="setor-group">
+        <h4 class="group-title">PRONTO SOCORRO</h4>
+        <div class="setor-buttons">
+            <button class="btn-setor" data-setor="Azul">Azul</button>
+            <button class="btn-setor" data-setor="Eixo crítico">Eixo crítico</button>
+            <button class="btn-setor" data-setor="Observação pediátrica">Observação pediátrica</button>
+            <button class="btn-setor" data-setor="Estabilização pediátrica">Estabilização pediátrica</button>
+            <button class="btn-setor" data-setor="Ortopedia">Ortopedia</button>
+            <button class="btn-setor" data-setor="Cirurgia-geral">Cirurgia-geral</button>
+        </div>
+    </div>
+
+    <div class="setor-group">
+        <h4 class="group-title">INTERNAMENTO</h4>
+        <div class="setor-buttons">
+            <button class="btn-setor" data-setor="Enfermaria clínica">Enfermaria clínica</button>
+            <button class="btn-setor" data-setor="Enfermaria cirúrgica">Enfermaria cirúrgica</button>
+            <button class="btn-setor" data-setor="Enfermaria pediátrica">Enfermaria pediátrica</button>
+            <button class="btn-setor" data-setor="UTI">UTI</button>
+        </div>
+    </div>
+
+</div>
+
+</div>
+
+<script src="scripts.js"></script>
+</body>
+</html>
