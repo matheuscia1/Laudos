@@ -3,6 +3,13 @@ header('Content-Type: application/json');
 
 date_default_timezone_set('America/Sao_Paulo');
 
+// DEBUG:
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+// FIM DEBUG
+
+
 $diretorio = __DIR__ . '/Laudos/';
 
 if (!isset($_FILES['laudo'])) {
@@ -70,11 +77,49 @@ $tipo = !empty($_POST['tipo'])
     : 'exame';
   
 
+$nomeBase = "{$tipo}_{$paciente}_{$prontuario}_{$setor}";
 $dataHora = date('Y-m-d_H-i');
 
-$nomeFinal = "{$tipo}_{$paciente}_{$prontuario}_{$setor}_{$dataHora}.pdf";
+$modo = $_POST['modo'] ?? 'novo';
 
-$caminhoFinal = $diretorio . $nomeFinal;
+    if ($modo === 'editar') {
+        // 🔁 sobrescreve o PDF existente (pré-liberação)
+        if (empty($_POST['arquivo_atual'])) {
+            echo json_encode([
+                'sucesso' => false,
+                'erro' => 'Arquivo atual não informado para edição'
+            ]);
+            exit;
+        }
+
+        $nomeFinal = basename($_POST['arquivo_atual']);
+        $caminhoFinal = $diretorio . $nomeFinal;
+
+    }
+    elseif ($modo === 'retificar') {
+        // ➕ cria novo PDF com histórico
+        $contador = 0;
+        $arquivos = scandir($diretorio);
+
+        foreach ($arquivos as $arquivoExistente) {
+            if (
+                strpos($arquivoExistente, $nomeBase . '_retificado(') === 0 &&
+                preg_match('/_retificado\((\d+)\)/', $arquivoExistente, $match)
+            ) {
+                $contador = max($contador, (int)$match[1]);
+            }
+        }
+
+        $contador++;
+        $nomeFinal = "{$nomeBase}_retificado({$contador})_{$dataHora}.pdf";
+        $caminhoFinal = $diretorio . $nomeFinal;
+
+    }
+    else {
+        // 📄 primeiro laudo
+        $nomeFinal = "{$nomeBase}_{$dataHora}.pdf";
+        $caminhoFinal = $diretorio . $nomeFinal;
+    }
 
 if (!move_uploaded_file($arquivo['tmp_name'], $caminhoFinal)) {
     echo json_encode([
