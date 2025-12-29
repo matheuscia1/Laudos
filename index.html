@@ -7,6 +7,11 @@
     <link rel="stylesheet" href="estilos.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 </head>
+
+<!-- NOTIFICACOES TIPO TOAST/SNACK -->
+<div id="toast-container"></div>
+
+
 <body>
 
 <!-- SIDEBAR -->
@@ -134,15 +139,21 @@
 </div>
 
 <div id="funcao-renal-container" style="display:none;">
-    <label>Função renal</label>
-    <input type="text" id="ureia" placeholder="Ureia">
-    <input type="text" id="creatinina" placeholder="Creatinina">
+    <label>Creatinina</label>
+        <input type="text" id="creatinina" placeholder="" inputmode="decimal">
+
+        <div style="margin-top: -0.5rem; margin-bottom: 1rem;">
+            <label style="font-size: 0.85rem; font-weight: 500;">
+                <input type="checkbox" id="creatinina-indisponivel">
+                Indisponível
+            </label>
+        </div>    
 </div>
 
-
+    
 
             <label>Indicação</label>
-            <textarea id="descricao" required></textarea>
+            <textarea id="descricao" required maxlength="200"></textarea>
 
             <button type="submit">Solicitar</button>
         </form>
@@ -224,19 +235,19 @@
         id="filtro-data"
     />
 
-    <button id="limpar-filtros">
-        Limpar
-    </button>
+    <div class="filtro-item">
+        <button id="limpar-filtros">Limpar</button>
     </div>
 
-    <!-- CONTADOR DE RESULTADOS DA BUSCA-->
-    <div id="contador-laudos" class="contador-laudos"></div>
-
+    
 
 </div>
 
 
+    <!-- CONTADOR DE RESULTADOS DA BUSCA-->
+    <div id="contador-laudos" class="contador-laudos"></div>
 
+    </div>
 
 
 
