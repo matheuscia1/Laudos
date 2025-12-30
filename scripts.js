@@ -390,6 +390,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+
+
+
+
+
+
+
+            
+
+
     /* =====================================================
        4️⃣ RENDERS (INTERFACE)
     ===================================================== */
@@ -1445,6 +1455,27 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+
+
+
+
+    // ===== ACCORDION DOS FILTROS (MOBILE) =====
+    const toggleFiltrosBtn = document.getElementById('toggle-filtros');
+    const filtros = document.querySelector('.laudos-filtros');
+
+    if (toggleFiltrosBtn && filtros) {
+        toggleFiltrosBtn.addEventListener('click', () => {
+            filtros.classList.toggle('aberto');
+
+            toggleFiltrosBtn.textContent =
+                filtros.classList.contains('aberto')
+                    ? '❌ Ocultar filtros'
+                    : '🔍 Mostrar filtros';
+        });
+    }
+
+
 
 
 

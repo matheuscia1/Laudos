@@ -966,6 +966,13 @@ button:hover {
     margin-bottom: 1.2rem;
 }
 
+/* === CORREÇÃO DEFINITIVA DO GRID DE FILTROS === */
+.laudos-filtros > input,
+.laudos-filtros > select,
+.laudos-filtros > button {
+    margin: 0 !important;
+}
+
 .laudos-filtros input,
 .laudos-filtros select,
 .laudos-filtros button {
@@ -1020,12 +1027,14 @@ button:hover {
 /* CONTADOR DE RESULTADOS DA BUSCA */
 
 .contador-laudos {
-    font-size: 0.9rem;
+    grid-column: 1 / -1;
+    text-align: left;
+    font-size: 0.8rem;
+    font-style: italic;
     color: #555;
     margin: 0.5rem 0 1rem 0;
     font-weight: 500;
 }
-
 
 
 /* ===== TOAST / SNACKBAR ===== */
@@ -1200,3 +1209,37 @@ button:hover {
 
 
 
+
+
+
+/* ==== DESIGN ACCORDION PARA FILTROS - APENAS MOBILE ==== */
+
+.btn-toggle-filtros {
+    display: none; /* desktop */
+    background: #ecf0f1;
+    color: #555;
+    border: 1px solid #d0e2f5;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+
+
+@media (max-width: 768px) {
+
+    .btn-toggle-filtros {
+        display: block;
+        margin-bottom: 0.75rem;
+    }
+
+    .laudos-filtros {
+        display: none; /* fechado por padrão */
+    }
+
+    .laudos-filtros.aberto {
+        display: grid;
+    }
+}
